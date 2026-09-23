@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "spec/session/canonical-session-model.json",
+  "title": "Canonical Session Model",
+  "type": "object",
+  "required": [
+    "sessionId",
+    "phase",
+    "lifecycleEpoch",
+    "requestedCapabilities",
+    "policyCapabilities",
+    "consentCapabilities",
+    "purposeCapabilities",
+    "lease",
+    "receipts",
+    "evidence"
+  ],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "minLength": 22,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]+$"
+    },
+    "lifecycleEpoch": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "phase": {
+      "enum": [
+        "Cold",
+        "Draft",
+        "CapabilityPreview",
+        "ConsentReview",
+        "Active",
+        "Sealing",
+        "Terminated",
+        "Expired",
+        "Revoked"
+      ]
+    },
+    "requestedCapabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "policyCapabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "consentCapabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "purposeCapabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "lease": {
+      "type": "object",
+      "required": ["leaseId", "expiresAt", "issuedAt"],
+      "properties": {
+        "leaseId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "issuedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "receipts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "transition",
+          "externalActionAuthorized",
+          "actuation"
+        ],
+        "properties": {
+          "transition": {
+            "type": "string"
+          },
+          "externalActionAuthorized": {
+            "const": false
+          },
+          "actuation": {
+            "const": "not-performed"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "not": {
+          "anyOf": [
+            { "required": ["identity"] },
+            { "required": ["credential"] },
+            { "required": ["deviceId"] },
+            { "required": ["attribution"] }
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
