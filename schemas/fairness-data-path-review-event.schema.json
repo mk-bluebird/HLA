@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/fairness-data-path-review-event.schema.json",
+  "title": "Hearthline Fairness Data-Path Review Event",
+  "description": "A content-minimized governance event documenting review of a product decision path. It does not contain member race, ethnicity, protected-class identity, proxy inference, person-level fairness score, or sensitive profile data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reviewEventId",
+    "reviewType",
+    "systemSurface",
+    "policyVersion",
+    "allowedFieldManifestVersion",
+    "forbiddenFieldManifestVersion",
+    "result",
+    "reviewedAt",
+    "reviewBy",
+    "retentionClass"
+  ],
+  "properties": {
+    "reviewEventId": {
+      "type": "string",
+      "pattern": "^fairness_review_[A-Za-z0-9_-]{16,128}$"
+    },
+    "reviewType": {
+      "type": "string",
+      "enum": [
+        "schema_boundary_review",
+        "query_plan_review",
+        "service_contract_review",
+        "explanation_review",
+        "accessibility_path_review",
+        "policy_change_review",
+        "appeal_pattern_review",
+        "approved_voluntary_research_review"
+      ]
+    },
+    "systemSurface": {
+      "type": "string",
+      "enum": [
+        "discovery",
+        "consent",
+        "identity_disclosure",
+        "access_controls",
+        "meeting_planning",
+        "reporting",
+        "moderation",
+        "appeals",
+        "conversation_assistance",
+        "community_prompts"
+      ]
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "allowedFieldManifestVersion": {
+      "type": "string",
+      "pattern": "^allowed-fields-v[0-9]+$"
+    },
+    "forbiddenFieldManifestVersion": {
+      "type": "string",
+      "pattern": "^forbidden-fields-v[0-9]+$"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "passed",
+        "requires_remediation",
+        "blocked_from_release",
+        "under_human_review"
+      ]
+    },
+    "findingCodes": {
+      "type": "array",
+      "maxItems": 24,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_\\-]+$"
+      }
+    },
+    "reviewedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "enum": [
+        "privacy_reviewer",
+        "accessibility_reviewer",
+        "safety_reviewer",
+        "policy_reviewer",
+        "independent_auditor",
+        "approved_research_review"
+      ]
+    },
+    "retentionClass": {
+      "type": "string",
+      "const": "purpose_limited_governance"
+    }
+  },
+  "$comment": "Forbidden fields include member race, ethnicity, nationality, religion, protected-class status, proxy attributes, names, images, messages, location, device data, identity inference, fairness score, risk score, or person-level outcome."
+}
