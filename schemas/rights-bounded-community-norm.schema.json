@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/rights-bounded-community-norm.schema.json",
+  "title": "Hearthline Rights-Bounded Community Norm",
+  "description": "A context-specific proposed or active community practice that cannot override Hearthline's rights floor, platform policy, member controls, accessibility requirements, consent rules, or appeal rights.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "normId",
+    "contextRef",
+    "state",
+    "title",
+    "plainLanguageText",
+    "permittedCategory",
+    "scope",
+    "policyVersion",
+    "createdAt",
+    "reviewBy",
+    "rightsFloorValidated"
+  ],
+  "properties": {
+    "normId": {
+      "type": "string",
+      "pattern": "^community_norm_[A-Za-z0-9_-]{16,128}$"
+    },
+    "contextRef": {
+      "type": "string",
+      "pattern": "^context_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "under_rights_review",
+        "open_for_member_comment",
+        "approved",
+        "active",
+        "paused",
+        "appealed",
+        "expired",
+        "removed"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "plainLanguageText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "permittedCategory": {
+      "type": "string",
+      "enum": [
+        "discussion_format",
+        "topic_order",
+        "text_first_default",
+        "asynchronous_default",
+        "voluntary_topic_pause",
+        "approved_prompt_category",
+        "respectful_disagreement_language",
+        "public_source_citation_style",
+        "community_event_framing",
+        "accessibility_reminder_language",
+        "moderation_process_explanation"
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "single_virtual_context",
+        "single_community_context",
+        "single_public_activity_context"
+      ]
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^community-norms-policy-v[0-9]+$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rightsFloorValidated": {
+      "type": "boolean",
+      "const": true
+    },
+    "appealRef": {
+      "type": "string",
+      "pattern": "^appeal_[A-Za-z0-9_-]{16,128}$"
+    }
+  },
+  "$comment": "Forbidden norm categories include identity disclosure, accessibility disclosure, camera/microphone/voice requirements, location or attendance requirements, mandatory participation, mandatory voting, intimate disclosure, relationship disclosure, financial or housing conditions, score/rating/reputation systems, block/report/appeal restrictions, surveillance, discrimination, coercion, recording requirements, or value-for-intimacy arrangements."
+}
