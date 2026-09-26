@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/source-labeled-public-venue-attribute.schema.json",
+  "title": "Hearthline Source-Labeled Public Venue Attribute",
+  "description": "A public, source-labeled venue or event attribute. It does not certify venue safety, accessibility, suitability, availability, capacity, or compliance with a member's preference.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attributeId",
+    "venueRef",
+    "attribute",
+    "sourcePublisher",
+    "sourceUrl",
+    "retrievedAt",
+    "reviewBy",
+    "status"
+  ],
+  "properties": {
+    "attributeId": {
+      "type": "string",
+      "pattern": "^public_venue_attr_[A-Za-z0-9_-]{16,128}$"
+    },
+    "venueRef": {
+      "type": "string",
+      "pattern": "^venue_[A-Za-z0-9_-]{16,128}$"
+    },
+    "attribute": {
+      "type": "string",
+      "enum": [
+        "step_free_entrance_information_published",
+        "seating_information_published",
+        "captions_information_published",
+        "interpretation_information_published",
+        "quiet_period_information_published",
+        "lower_sensory_information_published",
+        "public_transit_information_published",
+        "parking_information_published",
+        "public_cost_information_published",
+        "remote_option_information_published",
+        "hours_information_published",
+        "event_schedule_information_published"
+      ]
+    },
+    "sourcePublisher": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "plainLanguageSummary": {
+      "type": "string",
+      "maxLength": 600
+    },
+    "retrievedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "listed",
+        "under_review",
+        "outdated",
+        "removed"
+      ]
+    }
+  },
+  "$comment": "Forbidden fields include member identity, disability, access need, meeting history, attendance, location, route, user rating, venue safety score, accessibility score, suitability score, real-time capacity, real-time attendance, or person-level recommendation score."
+}
