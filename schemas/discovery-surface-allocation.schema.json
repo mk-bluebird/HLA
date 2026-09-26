@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/discovery-surface-allocation.schema.json",
+  "title": "Hearthline Discovery Surface Allocation",
+  "description": "A member-directed allocation of which shared-activity options appear on the member's discovery surface, in a member-chosen presentation mode. No ranking, scoring, or penalty semantics are permitted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "allocationId",
+    "memberRef",
+    "presentationMode",
+    "optionRefs",
+    "showFewerRequested",
+    "generatedAt"
+  ],
+  "properties": {
+    "allocationId": {
+      "type": "string",
+      "pattern": "^alloc_[A-Za-z0-9_-]{16,128}$"
+    },
+    "memberRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "presentationMode": {
+      "type": "string",
+      "enum": ["chronological", "one_at_a_time", "category_browse"]
+    },
+    "chosenCategory": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "optionRefs": {
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "string",
+        "pattern": "^option_[A-Za-z0-9_-]{16,128}$"
+      }
+    },
+    "showFewerRequested": {
+      "type": "boolean"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include rank, weight, compatibilityScore, engagementScore, visibilityPenalty, reducedAccessScore, safetyScore, riskScore, responseTimeWeight, photoQualityScore, popularity, distance, proximity, or coordinates."
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/mutual-visibility-context.schema.json",
+  "title": "Hearthline Mutual Visibility Context",
+  "description": "A pairwise visibility context describing what each member has chosen to make visible to the other. It is consent-scoped presentation metadata, not a presence signal.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contextId",
+    "memberRefA",
+    "memberRefB",
+    "visibilityAtoB",
+    "visibilityBtoA",
+    "mutualConsent",
+    "generatedAt"
+  ],
+  "properties": {
+    "contextId": {
+      "type": "string",
+      "pattern": "^visctx_[A-Za-z0-9_-]{16,128}$"
+    },
+    "memberRefA": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "memberRefB": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "visibilityAtoB": {
+      "type": "string",
+      "enum": ["hidden", "broad_category_only", "shared_context_visible", "direct"]
+    },
+    "visibilityBtoA": {
+      "type": "string",
+      "enum": ["hidden", "broad_category_only", "shared_context_visible", "direct"]
+    },
+    "mutualConsent": {
+      "type": "boolean"
+    },
+    "sharedActivityScope": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include lastActiveAt, onlineStatus, currentLocation, coordinates, distance, proximity, route, venue attendance, profileViews, viewedProfileRefs, responseSpeed, popularity, compatibilityScore, safetyScore, riskScore, trustScore, or reputation."
+}

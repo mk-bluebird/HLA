@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/encounter-capsule.schema.json",
+  "title": "Hearthline Encounter Capsule",
+  "description": "A short-lived, scoped message container readable only after mutual acceptance and only until expiry. It never authorizes an external action and supports no export or platform recovery.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "capsuleId",
+    "participants",
+    "purpose",
+    "status",
+    "createdAt",
+    "expiresAt",
+    "contentFormat",
+    "contentSize",
+    "requiresMutualAcceptance",
+    "noExportUi",
+    "noPlatformRecovery",
+    "externalActionAuthorized"
+  ],
+  "properties": {
+    "capsuleId": {
+      "type": "string",
+      "pattern": "^capsule_[A-Za-z0-9_-]{16,128}$"
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+      }
+    },
+    "purpose": {
+      "type": "string",
+      "enum": ["meeting_detail", "place_description", "context_note"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["proposed", "mutually_accepted", "paused", "withdrawn", "cancelled", "expired"]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "mutuallyAcceptedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "contentFormat": {
+      "type": "string",
+      "const": "text_plain"
+    },
+    "contentSize": {
+      "type": "string",
+      "enum": ["short", "medium"]
+    },
+    "requiresMutualAcceptance": {
+      "type": "boolean",
+      "const": true
+    },
+    "noExportUi": {
+      "type": "boolean",
+      "const": true
+    },
+    "noPlatformRecovery": {
+      "type": "boolean",
+      "const": true
+    },
+    "externalActionAuthorized": {
+      "type": "boolean",
+      "const": false
+    }
+  },
+  "$comment": "Forbidden fields include coordinates, venueId, attendance records, live presence, delivery/read receipts beyond the two participants, external messaging channel identifiers, automated escalation flags, or any authorization for third-party action."
+}
