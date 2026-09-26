@@ -1,0 +1,36 @@
+enum CurrentConnectionIntent {
+  FRIENDSHIP
+  CONVERSATION
+  SHARED_ACTIVITY
+  DATING
+  ROMANCE
+  INTIMACY
+  CASUAL_CONNECTION
+  RELATIONSHIP_EXPLORATION
+  UNDECIDED
+}
+
+enum DiscoveryPresentationMode {
+  SELF_DIRECTED
+  CHRONOLOGICAL
+  ONE_AT_A_TIME
+  TRANSPARENT_ROTATION
+}
+
+input CurrentConnectionIntentFilterInput {
+  selectedIntents: [CurrentConnectionIntent!]!
+  presentationMode: DiscoveryPresentationMode
+}
+
+type CurrentConnectionIntentContext {
+  shared: [CurrentConnectionIntent!]!
+  different: [CurrentConnectionIntent!]!
+  notDiscussing: [String!]!
+  reminder: String!
+}
+
+type Query {
+  currentConnectionIntentContext(
+    filter: CurrentConnectionIntentFilterInput!
+  ): [CurrentConnectionIntentContext!]!
+}
