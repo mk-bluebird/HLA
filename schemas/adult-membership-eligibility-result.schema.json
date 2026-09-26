@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/adult-membership-eligibility-result.schema.json",
+  "title": "Hearthline Adult Membership Eligibility Result",
+  "description": "A privacy-minimized internal result for Hearthline's 30+ product policy. It is not a public age field, identity record, legal-age determination, trust signal, safety signal, or ranking input.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "resultId",
+    "memberRef",
+    "minimumAgePolicy",
+    "state",
+    "assessedAt",
+    "reviewBy",
+    "policyVersion"
+  ],
+  "properties": {
+    "resultId": {
+      "type": "string",
+      "pattern": "^age_eligibility_[A-Za-z0-9_-]{16,128}$"
+    },
+    "memberRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "minimumAgePolicy": {
+      "type": "integer",
+      "const": 30
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "eligible",
+        "not_eligible",
+        "review_required",
+        "expired"
+      ]
+    },
+    "assessedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^adult-membership-policy-v[0-9]+$"
+    }
+  },
+  "$comment": "Forbidden fields: dateOfBirth, exactAge, ageRange, legalName, address, governmentId, identityDocument, biometric, faceScan, voiceprint, verificationMethod, issuerMetadata, credentialSubjectId, publicDid, walletAddress, trustScore, safetyScore, riskScore, reputationScore, desirabilityScore, compatibilityScore, or demographic inference."
+}
