@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/scoped-mutuality-receipt.schema.json",
+  "title": "Hearthline Scoped Mutuality Receipt",
+  "description": "A short-lived, revocable, non-transferable proof of a narrow current platform state. It is not a reputation, safety, trust, identity, compatibility, desirability, or encounter-history credential.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "receiptId",
+    "predicate",
+    "state",
+    "scope",
+    "issuedAt",
+    "expiresAt",
+    "revocable",
+    "nonTransferable",
+    "nonAccumulative",
+    "presentationMode"
+  ],
+  "properties": {
+    "receiptId": {
+      "type": "string",
+      "pattern": "^mutuality_receipt_[A-Za-z0-9_-]{16,128}$"
+    },
+    "predicate": {
+      "type": "string",
+      "enum": [
+        "adult_membership_eligibility_current",
+        "reciprocal_interest_window_current",
+        "direct_conversation_consent_current",
+        "public_first_meeting_plan_mutually_accepted",
+        "named_public_venue_envelope_current",
+        "prior_receipt_withdrawn",
+        "prior_receipt_expired",
+        "prior_receipt_superseded"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "withdrawn",
+        "expired",
+        "superseded"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "purpose",
+        "scopeRef"
+      ],
+      "properties": {
+        "purpose": {
+          "type": "string",
+          "enum": [
+            "adult_membership",
+            "discovery",
+            "conversation",
+            "meeting_planning",
+            "venue_disclosure"
+          ]
+        },
+        "scopeRef": {
+          "type": "string",
+          "pattern": "^(member|interest|consent|meeting_plan|envelope)_[A-Za-z0-9_-]{16,128}$"
+        },
+        "recipientRef": {
+          "type": "string",
+          "pattern": "^(member|verifier)_[A-Za-z0-9_-]{16,128}$"
+        }
+      }
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revokedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revocable": {
+      "type": "boolean",
+      "const": true
+    },
+    "nonTransferable": {
+      "type": "boolean",
+      "const": true
+    },
+    "nonAccumulative": {
+      "type": "boolean",
+      "const": true
+    },
+    "presentationMode": {
+      "type": "string",
+      "enum": [
+        "internal_opaque_reference",
+        "member_initiated_scoped_presentation"
+      ]
+    },
+    "presentationRef": {
+      "type": "string",
+      "pattern": "^presentation_[A-Za-z0-9_-]{16,128}$"
+    }
+  },
+  "$comment": "Forbidden predicates and fields include reputation, trust, safety, risk, desirability, popularity, report history, block history, restriction history, match count, encounter count, relationship history, sexual history, consent quality, health, recovery, identity confidence, protected identity, location, attendance, social graph, transferable credential, accumulation score, public DID, public wallet, or blockchain transaction reference."
+}
