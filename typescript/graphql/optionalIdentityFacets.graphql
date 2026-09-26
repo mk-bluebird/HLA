@@ -1,0 +1,88 @@
+scalar DateTime
+
+enum IdentityFacetType {
+  DISPLAY_NAME
+  PRONOUNS
+  LANGUAGE
+  GENDER_SELF_DESCRIPTION
+  SEXUALITY_OR_ORIENTATION_SELF_DESCRIPTION
+  RELATIONSHIP_ORIENTATION_SELF_DESCRIPTION
+  CULTURE_OR_COMMUNITY_SELF_DESCRIPTION
+  FAITH_OR_WORLDVIEW_SELF_DESCRIPTION
+  SPECIES_OR_OTHER_SELF_EXPRESSION
+  GENERAL_IDENTITY_SELF_DESCRIPTION
+}
+
+enum IdentityAssertionStatus {
+  SELF_STATED
+  NOT_DISCLOSED
+  WITHDRAWN
+  EXPIRED
+}
+
+enum IdentitySensitivity {
+  ORDINARY
+  SENSITIVE
+  PROTECTED
+}
+
+enum IdentityFacetState {
+  DRAFT
+  ACTIVE
+  PAUSED_BY_OWNER
+  WITHDRAWN
+  EXPIRED
+  DELETED
+}
+
+enum IdentityFacetVisibility {
+  PRIVATE
+  ELIGIBLE_DISCOVERY_ONLY
+  RECIPROCAL_INTEREST_ONLY
+  SPECIFIC_MEMBER_ONLY
+}
+
+type OptionalIdentityFacet {
+  facetId: ID!
+  facetType: IdentityFacetType!
+  assertionStatus: IdentityAssertionStatus!
+  sensitivity: IdentitySensitivity!
+  state: IdentityFacetState!
+  visibility: IdentityFacetVisibility!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  expiresAt: DateTime
+}
+
+input CreateOptionalIdentityFacetInput {
+  facetType: IdentityFacetType!
+  value: String!
+}
+
+input UpdateOptionalIdentityFacetInput {
+  facetId: ID!
+  value: String
+  state: IdentityFacetState
+}
+
+type Query {
+  myOptionalIdentityFacets: [OptionalIdentityFacet!]!
+}
+
+type Mutation {
+  createOptionalIdentityFacet(
+    input: CreateOptionalIdentityFacetInput!
+  ): OptionalIdentityFacet!
+
+  updateOptionalIdentityFacet(
+    input: UpdateOptionalIdentityFacetInput!
+  ): OptionalIdentityFacet!
+
+  withdrawOptionalIdentityFacet(
+    facetId: ID!
+  ): OptionalIdentityFacet!
+
+  deleteOptionalIdentityFacet(
+    facetId: ID!
+  ): Boolean!
+}
