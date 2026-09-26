@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/safety-support-action-request.schema.json",
+  "title": "Hearthline Safety Support Action Request",
+  "description": "A member-initiated request for a selected safety-support action. It is not a severity assessment, emergency determination, automatic escalation command, or person-level risk record.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "requestId",
+    "ownerRef",
+    "action",
+    "memberConfirmed",
+    "createdAt"
+  ],
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "pattern": "^safety_action_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "leave_interaction",
+        "mute_interaction",
+        "restrict_interaction",
+        "block_member",
+        "open_report_draft",
+        "preserve_selected_content",
+        "send_trusted_contact_message",
+        "open_device_emergency_options",
+        "view_static_emergency_information",
+        "request_human_review",
+        "pause_discovery",
+        "withdraw_consent",
+        "cancel_meeting_plan",
+        "revoke_venue_disclosure",
+        "delete_optional_planning_data"
+      ]
+    },
+    "counterpartRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "trustedContactRef": {
+      "type": "string",
+      "pattern": "^trusted_contact_[A-Za-z0-9_-]{16,128}$"
+    },
+    "selectedContentRefs": {
+      "type": "array",
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^selected_message_[A-Za-z0-9_-]{16,128}$"
+      }
+    },
+    "memberConfirmed": {
+      "type": "boolean",
+      "const": true
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include severity, severityScore, riskScore, dangerScore, emergencyProbability, automaticAuthorityContact, automaticEmergencyContact, liveLocation, route, arrivalStatus, deviceState, inactivitySignal, healthInference, identityInference, or counterpart safety classification."
+}
