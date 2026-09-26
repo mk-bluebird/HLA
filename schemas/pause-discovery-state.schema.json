@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/pause-discovery-state.schema.json",
+  "title": "Hearthline Pause Discovery State",
+  "description": "A member-controlled state that excludes active discovery objects from new candidate generation. It is not a presence state, ghost mode, profile-view record, or hidden activity signal.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pauseId",
+    "ownerRef",
+    "state",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "pauseId": {
+      "type": "string",
+      "pattern": "^discovery_pause_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "resumed",
+        "deleted"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include onlineStatus, lastActiveAt, nearbyStatus, currentLocation, locationHistory, profileViews, viewedProfileRefs, hiddenBrowsingHistory, deviceActivity, WebSocketPresence, sessionDuration, engagementScore, pauseReason, riskScore, trustScore, or visibilityPenalty."
+}
