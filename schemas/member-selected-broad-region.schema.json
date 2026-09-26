@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/member-selected-broad-region.schema.json",
+  "title": "Hearthline Member-Selected Broad Region",
+  "description": "A manually selected broad context for discovery. It is not a coordinate, GeoHash, map tile, address, IP-derived location, distance input, or location history.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "selectionId",
+    "ownerRef",
+    "state",
+    "settingScope",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "selectionId": {
+      "type": "string",
+      "pattern": "^broad_region_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused_by_owner",
+        "withdrawn",
+        "deleted"
+      ]
+    },
+    "settingScope": {
+      "type": "string",
+      "enum": [
+        "selected_broad_region",
+        "remote",
+        "public_category_only"
+      ]
+    },
+    "broadRegionId": {
+      "type": "string",
+      "pattern": "^region_[A-Za-z0-9_-]{3,96}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "settingScope": {
+            "const": "selected_broad_region"
+          }
+        },
+        "required": [
+          "settingScope"
+        ]
+      },
+      "then": {
+        "required": [
+          "broadRegionId"
+        ]
+      }
+    }
+  ],
+  "$comment": "Forbidden fields include latitude, longitude, coordinates, GeoHash, map tile, radius, distance, IP location, GPS, Wi-Fi, Bluetooth, device proximity, route, travel origin, travel destination, venue, attendance, check-in, nearby status, current location, location history, location noise, epsilon, or k-anonymity parameter."
+}
