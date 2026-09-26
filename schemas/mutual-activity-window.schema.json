@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/mutual-activity-window.schema.json",
+  "title": "Hearthline Mutual Activity Window",
+  "description": "A member-authored, future-facing, broad activity opportunity. It is not a calendar record, exact schedule, location disclosure, presence signal, reliability score, or meeting commitment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "windowId",
+    "ownerRef",
+    "state",
+    "futureDateRange",
+    "broadTimeBlocks",
+    "activityScope",
+    "settingScope",
+    "visibility",
+    "createdAt",
+    "expiresAt"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "windowId": {
+      "type": "string",
+      "pattern": "^activity_window_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "paused_by_owner",
+        "withdrawn",
+        "expired"
+      ]
+    },
+    "futureDateRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "startDate",
+        "endDate"
+      ],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "broadTimeBlocks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "weekday_daytime",
+          "weekday_evening",
+          "weekend_daytime",
+          "weekend_evening"
+        ]
+      }
+    },
+    "activityScope": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "conversation",
+          "board_games",
+          "coffee_or_tea",
+          "books_and_reading",
+          "creative_activity",
+          "learning",
+          "museum_or_art",
+          "remote_activity",
+          "public_walk"
+        ]
+      }
+    },
+    "settingScope": {
+      "type": "string",
+      "enum": [
+        "remote",
+        "selected_broad_region",
+        "public_category_only"
+      ]
+    },
+    "broadRegionId": {
+      "type": "string",
+      "pattern": "^region_[A-Za-z0-9_-]{3,96}$"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "private",
+        "eligible_discovery_only",
+        "reciprocal_interest_only"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "settingScope": {
+            "const": "selected_broad_region"
+          }
+        },
+        "required": [
+          "settingScope"
+        ]
+      },
+      "then": {
+        "required": [
+          "broadRegionId"
+        ]
+      }
+    }
+  ],
+  "$comment": "Forbidden fields include exact time, timezone-derived schedule, calendar event, calendar provider, recurring pattern, work schedule, location, coordinates, GeoHash, route, travel, venue, availability history, response timing, online presence, energy, health, disability, recovery, caregiving, financial context, score, or probability."
+}
