@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/source-labeled-venue-information.schema.json",
+  "title": "Hearthline Source-Labeled Venue Information",
+  "description": "Public venue or event information with provenance. It does not establish participant consent, real-time capacity, attendance, safety, accessibility, availability, or suitability.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "venueInfoId",
+    "venueRef",
+    "title",
+    "informationType",
+    "sourcePublisher",
+    "sourceUrl",
+    "sourceType",
+    "retrievedAt",
+    "reviewBy",
+    "status"
+  ],
+  "properties": {
+    "venueInfoId": {
+      "type": "string",
+      "pattern": "^venue_info_[A-Za-z0-9_-]{16,128}$"
+    },
+    "venueRef": {
+      "type": "string",
+      "pattern": "^venue_[A-Za-z0-9_-]{16,128}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "informationType": {
+      "type": "string",
+      "enum": [
+        "published_hours",
+        "published_event_schedule",
+        "published_entry_policy",
+        "published_reservation_policy",
+        "published_capacity_policy",
+        "published_recording_policy",
+        "published_conduct_policy",
+        "published_age_policy",
+        "published_accessibility_information",
+        "published_transit_information",
+        "published_cost_information",
+        "published_contact_information"
+      ]
+    },
+    "plainLanguageSummary": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "sourcePublisher": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "official_venue",
+        "official_event_organizer",
+        "official_transit_agency",
+        "public_government_directory",
+        "public_nonprofit_directory"
+      ]
+    },
+    "retrievedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "listed",
+        "under_review",
+        "outdated",
+        "removed"
+      ]
+    }
+  },
+  "$comment": "Forbidden fields include liveCapacity, crowdCount, occupancy, attendance, memberCheckIn, counterpartAttendance, nearbyMemberCount, realTimeLocation, arrivalStatus, departureStatus, venueSafetyScore, venueTrustScore, venueRiskScore, verifiedSafe, accessibilityScore, suitabilityScore, encounterOutcome, memberReview, or participantConsentState."
+}
