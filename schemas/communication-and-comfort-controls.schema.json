@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/communication-and-comfort-controls.schema.json",
+  "title": "Hearthline Communication and Comfort Controls",
+  "description": "Member-selected practical communication and sensory preferences. These controls are not diagnoses, disability classifications, identity labels, capability judgments, consent grants, or ranking inputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "controlsId",
+    "ownerRef",
+    "state",
+    "selectedControls",
+    "visibility",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "controlsId": {
+      "type": "string",
+      "pattern": "^communication_controls_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused_by_owner",
+        "withdrawn",
+        "deleted"
+      ]
+    },
+    "selectedControls": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "text_first",
+          "asynchronous_ok",
+          "direct_wording_preferred",
+          "plain_language_preferred",
+          "short_messages_preferred",
+          "longer_messages_welcome",
+          "one_topic_at_a_time",
+          "ask_before_changing_topic",
+          "slower_pace_welcome",
+          "no_voice_required",
+          "no_video_required",
+          "captions_requested",
+          "lower_sensory_setting_preferred",
+          "reduced_motion",
+          "no_photo_required"
+        ]
+      }
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "private",
+        "reciprocal_interest_only",
+        "specific_member_only",
+        "specific_meeting_plan_only"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include neurodivergence, autism, ADHD, diagnosis, disability identity, health condition, cognitive assessment, sensory diagnosis, medication, treatment, competence score, social-skill score, risk score, safety score, trust score, compatibility score, desirability score, response prediction, location, routine, or behavioral inference."
+}
