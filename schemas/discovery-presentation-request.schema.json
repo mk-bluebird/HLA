@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/discovery-presentation-request.schema.json",
+  "title": "Hearthline Discovery Presentation Request",
+  "description": "A member-directed request to organize already eligible discovery options. It is not a person-ranking request and must not include location, proximity, safety, risk, compatibility, or behavioral signals.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "requestId",
+    "ownerRef",
+    "presentationMode",
+    "createdAt"
+  ],
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "pattern": "^presentation_request_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "presentationMode": {
+      "type": "string",
+      "enum": [
+        "chronological",
+        "activity_category",
+        "connection_intent_category",
+        "broad_time_block",
+        "public_or_remote_context",
+        "text_or_asynchronous_context",
+        "one_at_a_time",
+        "transparent_rotation"
+      ]
+    },
+    "selectedCategory": {
+      "type": "string",
+      "maxLength": 96
+    },
+    "pageSize": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 25
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include weights, compatibilityScore, proximity, latitude, longitude, coordinates, GeoHash, radius, distance, safetyScore, riskScore, trustScore, reputationScore, desirabilityScore, popularityScore, responsePrediction, profileViewCount, messageSentiment, responseSpeed, onlineStatus, protectedIdentity, health, finances, housing, employment, socialGraph, or venueAttendance."
+}
