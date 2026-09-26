@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/capability-scoped-media-share.schema.json",
+  "title": "Hearthline Capability-Scoped Media Share",
+  "description": "A sender-confirmed, recipient-scoped, purpose-specific, expiring media share. It does not guarantee no copying or forwarding and does not authorize any other capability.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "shareId",
+    "senderRef",
+    "recipientRef",
+    "mediaRef",
+    "mediaClass",
+    "purpose",
+    "state",
+    "consentGrantRef",
+    "createdAt",
+    "expiresAt",
+    "senderConfirmed",
+    "copyRiskNoticeAcknowledged"
+  ],
+  "properties": {
+    "shareId": {
+      "type": "string",
+      "pattern": "^media_share_[A-Za-z0-9_-]{16,128}$"
+    },
+    "senderRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "recipientRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "mediaRef": {
+      "type": "string",
+      "pattern": "^media_[A-Za-z0-9_-]{16,128}$"
+    },
+    "mediaClass": {
+      "type": "string",
+      "enum": [
+        "non_sensitive_media",
+        "sensitive_personal_media",
+        "explicit_adult_media"
+      ]
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "conversation",
+        "personal_sharing",
+        "explicit_adult_sharing"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "recipient_view_permission_pending",
+        "active",
+        "withdrawn",
+        "expired",
+        "blocked",
+        "cancelled"
+      ]
+    },
+    "consentGrantRef": {
+      "type": "string",
+      "pattern": "^consent_[A-Za-z0-9_-]{16,128}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "withdrawnAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "senderConfirmed": {
+      "type": "boolean",
+      "const": true
+    },
+    "copyRiskNoticeAcknowledged": {
+      "type": "boolean",
+      "const": true
+    },
+    "optionalWatermark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "memberReviewedText": {
+          "type": "string",
+          "maxLength": 80
+        }
+      }
+    }
+  },
+  "$comment": "Forbidden fields include forwardingGuarantee, noScreenshotGuarantee, faceEmbedding, bodyEmbedding, nudityInference, identityInference, attractivenessScore, mediaPopularity, mediaViewCount, locationMetadata, EXIFLocation, contactMetadata, recipientTrackingId, publicWatermarkId, safetyScore, riskScore, trustScore, reputationScore, or compatibilityScore."
+}
