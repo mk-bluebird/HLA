@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/consent-revocation-event.schema.json",
+  "title": "Hearthline Consent Revocation Event",
+  "description": "A content-minimized event that invalidates a specific capability-scoped grant. It is not a relationship judgment, safety score, behavior profile, or public notification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eventId",
+    "eventType",
+    "occurredAt",
+    "grantRef",
+    "grantVersion",
+    "revocationReason",
+    "capability",
+    "purpose",
+    "recipientScope",
+    "revocationEpoch",
+    "policyVersion",
+    "retentionClass"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "pattern": "^consent_revoke_[A-Za-z0-9_-]{16,128}$"
+    },
+    "eventType": {
+      "type": "string",
+      "const": "consent.grant.revoked"
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "grantRef": {
+      "type": "string",
+      "pattern": "^consent_[A-Za-z0-9_-]{16,128}$"
+    },
+    "grantVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "revocationReason": {
+      "type": "string",
+      "enum": [
+        "withdrawn_by_grantor",
+        "paused_by_grantor",
+        "expired",
+        "block_applied",
+        "restriction_applied",
+        "account_closed",
+        "policy_required"
+      ]
+    },
+    "capability": {
+      "type": "string",
+      "enum": [
+        "open_direct_conversation",
+        "discuss_sexual_topics",
+        "share_media",
+        "view_shared_media",
+        "start_voice_call",
+        "start_video_call",
+        "discuss_named_public_venue",
+        "create_public_first_meeting_plan",
+        "share_trusted_contact_plan",
+        "enable_ar_camera",
+        "enable_ar_microphone",
+        "enable_ar_spatial_mapping",
+        "record_session"
+      ]
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "conversation",
+        "media",
+        "call",
+        "meeting_planning",
+        "trusted_contact",
+        "ar_experience",
+        "recording"
+      ]
+    },
+    "recipientScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "recipientRef"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "specific_member",
+            "specific_session",
+            "specific_trusted_contact"
+          ]
+        },
+        "recipientRef": {
+          "type": "string",
+          "pattern": "^(member|session|trusted_contact)_[A-Za-z0-9_-]{16,128}$"
+        }
+      }
+    },
+    "revocationEpoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^consent-policy-v[0-9]+$"
+    },
+    "retentionClass": {
+      "type": "string",
+      "const": "content_minimized_accountability"
+    }
+  },
+  "$comment": "Forbidden fields include raw messages, media, identity, health, location, venue, exact schedule, relationship narrative, safety score, risk score, trust score, reputation score, popularity, or counterpart profile data."
+}
