@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/feature-rights-and-access-impact-review.schema.json",
+  "title": "Hearthline Feature Rights and Access Impact Review",
+  "description": "A feature-level review of rights, access, privacy, consent, and accountability. It is not a numerical equality score or an evaluation of individual members or demographic groups.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reviewId",
+    "featureRef",
+    "featureVersion",
+    "dimensions",
+    "evidenceRefs",
+    "outcome",
+    "reviewedAt",
+    "reviewers",
+    "policyVersion"
+  ],
+  "properties": {
+    "reviewId": {
+      "type": "string",
+      "pattern": "^rights_access_review_[A-Za-z0-9_-]{16,128}$"
+    },
+    "featureRef": {
+      "type": "string",
+      "pattern": "^feature_[A-Za-z0-9_-]{16,128}$"
+    },
+    "featureVersion": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "dimensions": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "access",
+          "autonomy",
+          "consent",
+          "privacy",
+          "non_discrimination",
+          "accessibility",
+          "safety_and_exit",
+          "noncommercial_integrity",
+          "accountability"
+        ]
+      }
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^evidence_[A-Za-z0-9_-]{16,128}$"
+      }
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "approved_with_safeguards",
+        "requires_remediation",
+        "blocked_from_release",
+        "requires_policy_or_legal_review"
+      ]
+    },
+    "findingCodes": {
+      "type": "array",
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_\\-]+$"
+      }
+    },
+    "reviewedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewers": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "privacy",
+          "accessibility",
+          "safety",
+          "policy",
+          "engineering",
+          "member_research",
+          "legal_review",
+          "independent_audit"
+        ]
+      }
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^rights-access-review-policy-v[0-9]+$"
+    }
+  },
+  "$comment": "Forbidden fields include memberRef, demographic group, protected class, inferred identity, equality score, fairness score, engagement metric, private message, location, venue attendance, social graph, safety score, risk score, trust score, popularity score, compatibility score, or person-level outcome."
+}
