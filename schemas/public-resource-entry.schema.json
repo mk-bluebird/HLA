@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/public-resource-entry.schema.json",
+  "title": "Hearthline Public Resource Entry",
+  "description": "A source-labeled public information entry. It does not recommend, assess, refer, determine eligibility, or claim availability, safety, suitability, affordability, or capacity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "resourceId",
+    "title",
+    "category",
+    "officialOrPublisherSource",
+    "sourceUrl",
+    "sourceType",
+    "jurisdiction",
+    "retrievedAt",
+    "reviewBy",
+    "plainLanguageSummary",
+    "eligibilityUnknownOrSourceLinked",
+    "status"
+  ],
+  "properties": {
+    "resourceId": {
+      "type": "string",
+      "pattern": "^resource_[A-Za-z0-9_-]{16,128}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "transit",
+        "food",
+        "housing_information",
+        "tenant_rights",
+        "health_information",
+        "community_clinics",
+        "recovery_information",
+        "legal_information",
+        "employment_information",
+        "worker_rights",
+        "accessibility_information",
+        "community_information",
+        "emergency_information"
+      ]
+    },
+    "officialOrPublisherSource": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "sourceUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "government",
+        "official_provider",
+        "public_nonprofit",
+        "public_directory",
+        "public_library",
+        "public_transit_agency",
+        "legal_aid_directory",
+        "community_organization"
+      ]
+    },
+    "jurisdiction": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 120
+    },
+    "plainLanguageSummary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "contactMethodAsPublished": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "accessibilityInformationIfPubliclyAvailable": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "eligibilityUnknownOrSourceLinked": {
+      "type": "boolean",
+      "const": true
+    },
+    "retrievedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "listed",
+        "under_review",
+        "outdated",
+        "removed"
+      ]
+    }
+  },
+  "$comment": "Forbidden fields include member need, eligibility prediction, member location, member identity, application status, referral status, provider outcome, search history, click tracking, resource ranking, resource match score, vulnerability score, financial status, housing status, health data, recovery data, or relationship data."
+}
