@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/member-controlled-interoperability-connection.schema.json",
+  "title": "Hearthline Member-Controlled Interoperability Connection",
+  "description": "A member-initiated, scope-limited connection or export request. It is not a portable reputation system, contact-graph import, automatic external action, or cross-platform social profile.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "connectionId",
+    "ownerRef",
+    "kind",
+    "state",
+    "purpose",
+    "requestedScopes",
+    "createdAt",
+    "memberInitiated"
+  ],
+  "properties": {
+    "connectionId": {
+      "type": "string",
+      "pattern": "^interop_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "member_data_export",
+        "member_data_import",
+        "oauth_connection",
+        "minimal_claim_presentation"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "awaiting_member_confirmation",
+        "active",
+        "revoked",
+        "completed",
+        "expired",
+        "cancelled"
+      ]
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "data_portability",
+        "member_selected_import",
+        "documented_provider_connection",
+        "minimal_current_predicate"
+      ]
+    },
+    "requestedScopes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "member_authored_profile_fields",
+          "member_authored_preferences",
+          "member_authored_drafts",
+          "member_authored_settings",
+          "member_accessibility_controls",
+          "member_connection_intent",
+          "member_relationship_goals",
+          "member_owned_export_metadata",
+          "minimal_current_predicate"
+        ]
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memberInitiated": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "$comment": "Forbidden scopes include contacts, social graph, address book, counterpart profile, counterpart messages, counterpart media, consent grants, boundaries, reports, blocks, meeting plans, trusted contacts, location, routes, attendance, behavioral analytics, reputation, trust, safety, risk, compatibility, popularity, report history, or encounter history."
+}
