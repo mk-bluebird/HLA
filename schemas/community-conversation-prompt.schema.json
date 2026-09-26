@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/community-conversation-prompt.schema.json",
+  "title": "Hearthline Community Conversation Prompt",
+  "description": "An optional, skip-friendly conversation prompt. It is not a psychological assessment, identity test, engagement instrument, matching signal, or disclosure requirement.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "promptId",
+    "category",
+    "tone",
+    "text",
+    "skipFriendly",
+    "responseFormats",
+    "status",
+    "reviewBy",
+    "policyVersion"
+  ],
+  "properties": {
+    "promptId": {
+      "type": "string",
+      "pattern": "^prompt_[A-Za-z0-9_-]{16,128}$"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "interests",
+        "books_and_media",
+        "learning_and_making",
+        "public_activity",
+        "place_and_atmosphere",
+        "conversation_style",
+        "everyday_rhythm",
+        "food_and_drink",
+        "small_joys",
+        "imagination",
+        "boundaries_and_pace",
+        "no_answer_needed"
+      ]
+    },
+    "tone": {
+      "type": "string",
+      "enum": [
+        "neutral",
+        "curious",
+        "playful",
+        "reflective",
+        "practical"
+      ]
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "skipFriendly": {
+      "type": "boolean",
+      "const": true
+    },
+    "responseFormats": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "free_text",
+          "short_text",
+          "multiple_choice_optional",
+          "emoji_optional",
+          "no_response"
+        ]
+      }
+    },
+    "accessNotes": {
+      "type": "array",
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "plain_language",
+          "screen_reader_reviewed",
+          "keyboard_reviewed",
+          "reduced_motion_safe",
+          "low_bandwidth_safe",
+          "text_first"
+        ]
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published",
+        "under_review",
+        "withdrawn",
+        "retired"
+      ]
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^conversation-prompt-policy-v[0-9]+$"
+    }
+  },
+  "$comment": "Forbidden categories and data include health, diagnosis, recovery, trauma, identity verification, sexual history, explicit sexual content, finances, housing, employment, criminal history, immigration, religion, politics, exact location, routine, availability, contact information, intimate images, body details, relationship score, personality assessment, moral assessment, risk assessment, safety assessment, compatibility assessment, or engagement score."
+}
