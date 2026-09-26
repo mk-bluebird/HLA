@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/opt-in-research-study.schema.json",
+  "title": "Hearthline Opt-In Research Study",
+  "description": "A narrowly scoped, independently reviewed research study. It is not a default data commons or authorization to use operational member data for unrelated purposes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "studyId",
+    "title",
+    "researchQuestion",
+    "state",
+    "requestedDataClasses",
+    "consentVersion",
+    "reviewRefs",
+    "retention",
+    "withdrawalPolicy",
+    "createdAt",
+    "reviewBy"
+  ],
+  "properties": {
+    "studyId": {
+      "type": "string",
+      "pattern": "^study_[A-Za-z0-9_-]{16,128}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240
+    },
+    "researchQuestion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "under_review",
+        "open_for_opt_in",
+        "active",
+        "closed_to_new_participation",
+        "retention_expired",
+        "destroyed"
+      ]
+    },
+    "requestedDataClasses": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "member_voluntary_survey_response",
+          "member_voluntary_usability_feedback",
+          "aggregate_accessibility_path_result",
+          "aggregate_policy_comprehension_result",
+          "aggregate_control_discoverability_result",
+          "aggregate_revocation_propagation_result"
+        ]
+      }
+    },
+    "consentVersion": {
+      "type": "string",
+      "pattern": "^research-consent-v[0-9]+$"
+    },
+    "reviewRefs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^review_[A-Za-z0-9_-]{16,128}$"
+      }
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "destroyBy",
+        "operationalReuseProhibited"
+      ],
+      "properties": {
+        "destroyBy": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "operationalReuseProhibited": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "withdrawalPolicy": {
+      "type": "string",
+      "enum": [
+        "future_collection_stops_immediately",
+        "future_collection_and_unpublished_data_removal_where_feasible"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden requested data classes include private messages, media, calls, recordings, exact/approximate location, routes, venue attendance, contact graph, identity claims, protected identity, health, recovery, finances, housing, employment, reports, blocks, appeals, moderation records, casual-encounter history, relationship history, device identifiers, biometrics, or person-level engagement."
+}
