@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/optional-aftercare-session.schema.json",
+  "title": "Hearthline Optional Aftercare Session",
+  "description": "A private, member-initiated session for reflection, decompression, boundary review, or optional next-step planning. It is not a rating, diagnosis, encounter record, safety assessment, or signal about another member.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sessionId",
+    "ownerRef",
+    "state",
+    "entryMode",
+    "selectedTools",
+    "createdAt",
+    "memberInitiated"
+  ],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "pattern": "^aftercare_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused_by_owner",
+        "completed",
+        "discarded",
+        "deleted"
+      ]
+    },
+    "entryMode": {
+      "type": "string",
+      "enum": [
+        "member_opened",
+        "member_scheduled_reminder",
+        "member_selected_interaction_menu"
+      ]
+    },
+    "selectedTools": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "quiet_notifications",
+          "pause_discovery",
+          "private_reflection_prompt",
+          "boundary_review",
+          "pace_review",
+          "private_next_step_note",
+          "consent_reminder",
+          "quiet_exit_controls",
+          "public_resources_link",
+          "trusted_contact_draft",
+          "deletion_and_expiry_review"
+        ]
+      }
+    },
+    "localOnly": {
+      "type": "boolean",
+      "default": true
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memberInitiated": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "$comment": "Forbidden fields include counterpartRef, encounterType, intimacyOccurred, meetingOccurred, safetyRating, trustRating, reputationRating, recommendationRating, emotionalState, diagnosis, trauma, health, recovery, substance use, crisis score, location, route, attendance, message transcript, behavior score, or automatic escalation."
+}
