@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/adult-context-moderation-appeal.schema.json",
+  "title": "Hearthline Adult-Context Moderation Appeal",
+  "description": "A member-submitted correction or appeal request for a material platform decision. It is not a reputation record, behavior score, or requirement to disclose sensitive personal information.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "appealId",
+    "appellantRef",
+    "decisionRef",
+    "state",
+    "appealGrounds",
+    "createdAt",
+    "policyVersion"
+  ],
+  "properties": {
+    "appealId": {
+      "type": "string",
+      "pattern": "^appeal_[A-Za-z0-9_-]{16,128}$"
+    },
+    "appellantRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "decisionRef": {
+      "type": "string",
+      "pattern": "^decision_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "receipt_confirmed",
+        "under_human_review",
+        "additional_member_context_requested",
+        "resolved",
+        "withdrawn_by_member",
+        "closed"
+      ]
+    },
+    "appealGrounds": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "policy_misapplied",
+          "context_missing_or_incorrect",
+          "identity_or_account_error",
+          "content_or_media_misclassified",
+          "accessibility_process_barrier",
+          "procedure_or_notice_error",
+          "new_relevant_member_context",
+          "other_plain_language_explanation"
+        ]
+      }
+    },
+    "memberStatement": {
+      "type": "string",
+      "maxLength": 6000
+    },
+    "requestedAccommodation": {
+      "type": "string",
+      "enum": [
+        "text_first",
+        "plain_language",
+        "asynchronous_response",
+        "screen_reader_compatible",
+        "other_member_described",
+        "none"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^moderation-appeals-policy-v[0-9]+$"
+    }
+  },
+  "$comment": "Forbidden fields include reporter identity, counterpart private data, precise location, sexual history, medical information, recovery status, safety score, risk score, trust score, reputation score, popularity, behavior profile, or appeal-likelihood prediction."
+}
