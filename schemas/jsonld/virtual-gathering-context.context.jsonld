@@ -1,0 +1,20 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "hl": "https://hearthline.example/vocab/",
+    "VirtualGatheringContext": "hl:VirtualGatheringContext",
+    "purpose": "hl:purpose",
+    "participationScope": "hl:participationScope",
+    "interactionFormats": "hl:interactionFormats",
+    "interactionRules": "hl:interactionRules",
+    "accessOptions": "hl:accessOptions",
+    "consentCheckpoints": "hl:consentCheckpoints",
+    "safetyControls": "hl:safetyControls",
+    "retentionPolicy": "hl:retentionPolicy",
+    "policyVersion": "hl:policyVersion",
+    "expiresAt": {
+      "@id": "hl:expiresAt",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+    }
+  }
+}
