@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/member-requested-reflection-reminder.schema.json",
+  "title": "Hearthline Member-Requested Reflection Reminder",
+  "description": "A private, member-authored reminder. It is not a streak, social-performance measure, behavior monitor, engagement mechanism, or assessment of social need.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "reminderId",
+    "ownerRef",
+    "state",
+    "topic",
+    "deliveryPreference",
+    "createdAt",
+    "memberInitiated"
+  ],
+  "properties": {
+    "reminderId": {
+      "type": "string",
+      "pattern": "^reflection_reminder_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "acknowledged",
+        "dismissed",
+        "paused_by_owner",
+        "deleted",
+        "expired"
+      ]
+    },
+    "topic": {
+      "type": "string",
+      "enum": [
+        "review_connection_settings",
+        "review_discovery_visibility",
+        "review_saved_draft",
+        "consider_low_pressure_activity",
+        "review_boundary_or_pace",
+        "review_public_first_plan",
+        "pause_or_withdraw_optional_object",
+        "take_a_break_from_discovery"
+      ]
+    },
+    "memberWrittenText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 280
+    },
+    "deliveryPreference": {
+      "type": "string",
+      "enum": [
+        "in_app_only",
+        "single_device_notification",
+        "digest_only",
+        "none"
+      ]
+    },
+    "memberSelectedSchedule": {
+      "type": "string",
+      "enum": [
+        "once",
+        "weekly",
+        "monthly"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memberInitiated": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "$comment": "Forbidden fields include streak, completion score, missed-goal count, inactivity status, response delay, match count, profile-view count, location, calendar, device activity, energy score, loneliness inference, health inference, risk score, social score, target person, or automatic escalation."
+}
