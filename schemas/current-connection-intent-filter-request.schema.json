@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/current-connection-intent-filter-request.schema.json",
+  "title": "Hearthline Current Connection Intent Filter Request",
+  "description": "A member-directed filter for organizing already eligible discovery options by current connection intent. It is not a binary casual-versus-long-term classifier, a compatibility score request, or a sexual-availability query.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "requestId",
+    "ownerRef",
+    "selectedIntents",
+    "createdAt"
+  ],
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "pattern": "^intent_filter_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "selectedIntents": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "friendship",
+          "conversation",
+          "shared_activity",
+          "dating",
+          "romance",
+          "intimacy",
+          "casual_connection",
+          "relationship_exploration",
+          "undecided"
+        ]
+      }
+    },
+    "presentationMode": {
+      "type": "string",
+      "enum": [
+        "self_directed",
+        "chronological",
+        "one_at_a_time",
+        "transparent_rotation"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include casualOnly, longTermOnly, exactAge, sexualAvailability, relationshipScore, compatibilityScore, conversionLikelihood, proximity, location, safetyScore, riskScore, trustScore, reputationScore, popularityScore, responsePrediction, profileViewData, messageData, health, finances, housing, employment, identity inference, or vulnerability inference."
+}
