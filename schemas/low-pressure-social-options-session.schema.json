@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/low-pressure-social-options-session.schema.json",
+  "title": "Hearthline Low-Pressure Social Options Session",
+  "description": "A private, member-initiated planning session for optional social possibilities. It is not a wellness assessment, stress-relief matcher, emotional-state profile, calendar model, or person-matching system.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sessionId",
+    "ownerRef",
+    "state",
+    "memberSelectedInputs",
+    "notificationPreference",
+    "createdAt",
+    "memberInitiated"
+  ],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "pattern": "^low_pressure_options_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused_by_owner",
+        "completed",
+        "discarded",
+        "deleted"
+      ]
+    },
+    "memberSelectedInputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "connectionGoals": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "conversation",
+              "friendship",
+              "shared_activity",
+              "dating",
+              "romance",
+              "casual_connection",
+              "undecided"
+            ]
+          }
+        },
+        "formats": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "text",
+              "remote",
+              "public_activity",
+              "learning",
+              "creative_activity",
+              "shared_game"
+            ]
+          }
+        },
+        "pace": {
+          "type": "string",
+          "enum": [
+            "one_time_option",
+            "occasional_option",
+            "flexible",
+            "no_recurring_plan"
+          ]
+        },
+        "comfortControls": {
+          "type": "array",
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "text_first",
+              "public_first",
+              "remote_first",
+              "quiet_preferred",
+              "lower_sensory_preferred",
+              "short_duration_preferred",
+              "asynchronous_ok",
+              "no_photo_required",
+              "one_at_a_time",
+              "low_stimulation"
+            ]
+          }
+        },
+        "costPreference": {
+          "type": "string",
+          "enum": [
+            "no_cost_preferred",
+            "low_cost_preferred",
+            "not_discussing"
+          ]
+        },
+        "settingScope": {
+          "type": "string",
+          "enum": [
+            "remote",
+            "public_category_only",
+            "selected_broad_region"
+          ]
+        },
+        "planningWindow": {
+          "type": "string",
+          "enum": [
+            "today",
+            "this_week",
+            "next_two_weeks",
+            "unspecified"
+          ]
+        }
+      }
+    },
+    "notificationPreference": {
+      "type": "string",
+      "enum": [
+        "none",
+        "member_opened_only",
+        "digest_only",
+        "single_member_selected_reminder"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memberInitiated": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "$comment": "Forbidden fields include stress, stressRelief, emotionalState, loneliness, isolation, crisis, trauma, health, disability, recovery, substance history, finances, housing, employment, transport dependency, calendar, exact availability, location, routes, attendance, device behavior, engagement, social graph, person target, wellbeing prediction, therapy claim, or match score."
+}
