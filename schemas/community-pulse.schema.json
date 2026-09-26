@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/community-pulse.schema.json",
+  "title": "Hearthline Community Pulse",
+  "description": "An aggregate, time-bounded community summary item. It carries no raw counts, no individual members, and no location data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "pulseId",
+    "scopeLabel",
+    "headline",
+    "detailSummary",
+    "windowStart",
+    "windowEnd",
+    "publishedAt",
+    "expiresAt",
+    "aggregatedOnly",
+    "noIndividualMembers",
+    "noLocationData"
+  ],
+  "properties": {
+    "pulseId": {
+      "type": "string",
+      "pattern": "^pulse_[A-Za-z0-9_-]{16,128}$"
+    },
+    "scopeLabel": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "headline": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "detailSummary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "windowStart": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "windowEnd": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "aggregatedOnly": {
+      "type": "boolean",
+      "const": true
+    },
+    "noIndividualMembers": {
+      "type": "boolean",
+      "const": true
+    },
+    "noLocationData": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "$comment": "Forbidden fields include rawCounts, memberRefs, participantLists, coordinates, jurisdictionOfParticipants, venueAttendance, livePresence, onlineStatus, routeData, or any per-person activity signal."
+}

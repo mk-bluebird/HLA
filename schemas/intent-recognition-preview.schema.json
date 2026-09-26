@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/intent-recognition-preview.schema.json",
+  "title": "Hearthline Intent Recognition Preview",
+  "description": "A non-executable preview of a recognized intent that a member must confirm or edit. Previews never run queries, never send messages, and never trigger automatic actions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "previewId",
+    "requesterMemberRef",
+    "recognizedIntent",
+    "proposedText",
+    "nextAction",
+    "queryExecutable",
+    "generatedAt"
+  ],
+  "properties": {
+    "previewId": {
+      "type": "string",
+      "pattern": "^intentprev_[A-Za-z0-9_-]{16,128}$"
+    },
+    "requesterMemberRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "recognizedIntent": {
+      "type": "string",
+      "enum": [
+        "shared_activity_suggestion",
+        "meeting_logistics",
+        "boundary_statement",
+        "cancellation_request",
+        "resource_inquiry"
+      ]
+    },
+    "proposedText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "nextAction": {
+      "type": "string",
+      "enum": ["confirm_or_edit", "no_action"]
+    },
+    "queryExecutable": {
+      "type": "boolean",
+      "const": false
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include executedQuery, autoSend, messageChannelRef, sentimentScore, responsePrediction, identity inference, health inference, financial inference, vulnerability inference, or any field indicating an action was taken without member confirmation."
+}
