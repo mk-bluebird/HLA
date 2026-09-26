@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/optional-identity-facet.schema.json",
+  "title": "Hearthline Optional Identity Facet",
+  "description": "A member-authored optional identity or self-expression facet. It is not required for participation, not a certification, not a truth claim evaluated by the platform, and not an input to person-level scoring.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "facetId",
+    "ownerRef",
+    "facetType",
+    "assertionStatus",
+    "sensitivity",
+    "state",
+    "visibility",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "facetId": {
+      "type": "string",
+      "pattern": "^identity_facet_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "facetType": {
+      "type": "string",
+      "enum": [
+        "display_name",
+        "pronouns",
+        "language",
+        "gender_self_description",
+        "sexuality_or_orientation_self_description",
+        "relationship_orientation_self_description",
+        "culture_or_community_self_description",
+        "faith_or_worldview_self_description",
+        "species_or_other_self_expression",
+        "general_identity_self_description"
+      ]
+    },
+    "assertionStatus": {
+      "type": "string",
+      "enum": [
+        "self_stated",
+        "not_disclosed",
+        "withdrawn",
+        "expired"
+      ]
+    },
+    "sensitivity": {
+      "type": "string",
+      "enum": [
+        "ordinary",
+        "sensitive",
+        "protected"
+      ]
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "paused_by_owner",
+        "withdrawn",
+        "expired",
+        "deleted"
+      ]
+    },
+    "valueCiphertextRef": {
+      "type": "string",
+      "pattern": "^ciphertext_[A-Za-z0-9_-]{16,128}$"
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "private",
+        "eligible_discovery_only",
+        "reciprocal_interest_only",
+        "specific_member_only"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "withdrawnAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "sensitivity": {
+            "enum": [
+              "sensitive",
+              "protected"
+            ]
+          }
+        },
+        "required": [
+          "sensitivity"
+        ]
+      },
+      "then": {
+        "properties": {
+          "visibility": {
+            "const": "private"
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "No confidence, verification, authenticity, safety, risk, trust, compatibility, desirability, popularity, protected-class confirmation, behavioral inference, or score field is permitted. Raw member-authored value is stored separately in protected encrypted storage."
+}
