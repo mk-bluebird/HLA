@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/access-and-planning-preferences.schema.json",
+  "title": "Hearthline Access and Planning Preferences",
+  "description": "Private member-selected practical conditions for interaction and planning. These are not disability labels, medical records, capability assessments, venue suitability claims, or inputs to person ranking.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "preferencesId",
+    "ownerRef",
+    "state",
+    "selectedPreferences",
+    "visibility",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "preferencesId": {
+      "type": "string",
+      "pattern": "^access_planning_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused_by_owner",
+        "withdrawn",
+        "deleted"
+      ]
+    },
+    "selectedPreferences": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 24,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "step_free_information_preferred",
+          "seating_information_preferred",
+          "captions_information_preferred",
+          "interpretation_information_preferred",
+          "lower_sensory_information_preferred",
+          "quiet_period_information_preferred",
+          "public_transit_information_preferred",
+          "parking_information_preferred",
+          "remote_first",
+          "text_first",
+          "no_camera",
+          "no_microphone",
+          "no_voice",
+          "independent_arrival_preferred",
+          "independent_departure_preferred",
+          "short_duration_preferred",
+          "flexible_time_window_preferred",
+          "low_cost_option_preferred",
+          "public_first_preferred"
+        ]
+      }
+    },
+    "visibility": {
+      "type": "string",
+      "enum": [
+        "private",
+        "specific_member_only",
+        "specific_meeting_plan_only"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden fields include disability, diagnosis, medical documentation, mobility-device identity, health status, neurodivergence, support-worker information, treatment, functional-capacity score, venue-accessibility score, venue-suitability score, person-level matching score, exact location, route, travel origin, travel destination, or behavioral inference."
+}
