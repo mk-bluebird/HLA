@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/structural-uncertainty-decision.schema.json",
+  "title": "Hearthline Structural Uncertainty Decision",
+  "description": "A record of how the system handled incomplete or ambiguous information without inferring a person-level trait, score, probability, or proxy classification.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decisionId",
+    "fieldClass",
+    "observedState",
+    "systemAction",
+    "createdAt",
+    "policyVersion"
+  ],
+  "properties": {
+    "decisionId": {
+      "type": "string",
+      "pattern": "^uncertainty_[A-Za-z0-9_-]{16,128}$"
+    },
+    "fieldClass": {
+      "type": "string",
+      "enum": [
+        "connection_intent",
+        "boundary",
+        "consent",
+        "activity_window",
+        "broad_region",
+        "access_control",
+        "identity_facet",
+        "public_source_attribute",
+        "policy_context"
+      ]
+    },
+    "observedState": {
+      "type": "string",
+      "enum": [
+        "absent",
+        "not_disclosed",
+        "ambiguous",
+        "withdrawn",
+        "expired",
+        "outdated",
+        "policy_unclear"
+      ]
+    },
+    "systemAction": {
+      "type": "string",
+      "enum": [
+        "exclude_from_decision",
+        "require_member_confirmation",
+        "deny_sensitive_capability",
+        "offer_non_disclosing_alternative",
+        "mark_source_unknown",
+        "route_to_human_or_policy_review"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^structural-uncertainty-policy-v[0-9]+$"
+    }
+  },
+  "$comment": "Forbidden fields include probability, confidence, posterior, score, predicted outcome, demographic inference, identity inference, risk estimate, safety estimate, trust estimate, compatibility estimate, location estimate, availability estimate, or behavioral prediction."
+}
