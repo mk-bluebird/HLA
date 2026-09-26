@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/social-option-suggestion.schema.json",
+  "title": "Hearthline Social Option Suggestion",
+  "description": "An optional, member-dismissible planning suggestion. It is not a task, obligation, prescription, prediction, safety guarantee, or automated action.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "suggestionId",
+    "sessionRef",
+    "kind",
+    "plainLanguageText",
+    "memberActionRequired",
+    "externalActionAuthorized",
+    "dismissible"
+  ],
+  "properties": {
+    "suggestionId": {
+      "type": "string",
+      "pattern": "^social_suggestion_[A-Za-z0-9_-]{16,128}$"
+    },
+    "sessionRef": {
+      "type": "string",
+      "pattern": "^social_options_[A-Za-z0-9_-]{16,128}$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "private_reflection",
+        "remote_activity_idea",
+        "public_activity_idea",
+        "text_first_conversation_idea",
+        "consent_checkpoint_reminder",
+        "pause_or_rest_option"
+      ]
+    },
+    "plainLanguageText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000
+    },
+    "memberActionRequired": {
+      "type": "boolean",
+      "const": true
+    },
+    "externalActionAuthorized": {
+      "type": "boolean",
+      "const": false
+    },
+    "dismissible": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "$comment": "Forbidden output fields: obligation, deadline, streak, urgency, shame, behavioral prediction, health assessment, matching score, person target, exact venue, exact time, calendar event, automatic message, automatic invitation, or automated external action."
+}
