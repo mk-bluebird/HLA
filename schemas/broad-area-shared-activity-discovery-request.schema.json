@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/broad-area-shared-activity-discovery-request.schema.json",
+  "title": "Hearthline Broad-Area Shared Activity Discovery Request",
+  "description": "A member-authored discovery request using broad, selected context. It is not a location query, nearby search, proximity sort, compatibility score request, or presence lookup.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "requestId",
+    "ownerRef",
+    "state",
+    "connectionIntents",
+    "activityContexts",
+    "atmospherePreferences",
+    "communicationPreferences",
+    "settingScope",
+    "futureTimeBlocks",
+    "createdAt",
+    "expiresAt"
+  ],
+  "properties": {
+    "requestId": {
+      "type": "string",
+      "pattern": "^discovery_request_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused_by_owner",
+        "withdrawn",
+        "expired"
+      ]
+    },
+    "connectionIntents": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "friendship",
+          "conversation",
+          "shared_activity",
+          "dating",
+          "romance",
+          "intimacy",
+          "casual_connection",
+          "undecided"
+        ]
+      }
+    },
+    "activityContexts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "board_games",
+          "books_and_reading",
+          "coffee_or_tea",
+          "creative_activity",
+          "film_or_media",
+          "learning",
+          "museum_or_art",
+          "music_listening",
+          "public_walk",
+          "remote_conversation",
+          "remote_game",
+          "workshop"
+        ]
+      }
+    },
+    "atmospherePreferences": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "public_first",
+          "quiet",
+          "lower_sensory",
+          "low_cost",
+          "daytime",
+          "indoor",
+          "outdoor",
+          "seated",
+          "step_free_preferred",
+          "substance_free_preferred",
+          "remote_first"
+        ]
+      }
+    },
+    "communicationPreferences": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "text_first",
+          "asynchronous_ok",
+          "slower_replies_welcome",
+          "no_photo_required",
+          "voice_not_required",
+          "ask_before_sexual_topics"
+        ]
+      }
+    },
+    "settingScope": {
+      "type": "string",
+      "enum": [
+        "remote",
+        "selected_broad_region",
+        "public_category_only"
+      ]
+    },
+    "broadRegionId": {
+      "type": "string",
+      "pattern": "^region_[A-Za-z0-9_-]{3,96}$"
+    },
+    "futureTimeBlocks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "weekday_daytime",
+          "weekday_evening",
+          "weekend_daytime",
+          "weekend_evening"
+        ]
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "settingScope": {
+            "const": "selected_broad_region"
+          }
+        },
+        "required": [
+          "settingScope"
+        ]
+      },
+      "then": {
+        "required": [
+          "broadRegionId"
+        ]
+      }
+    }
+  ],
+  "$comment": "Forbidden fields include latitude, longitude, coordinates, GeoHash, location precision, distance, proximity, map radius, route, current position, venue attendance, location history, availability history, presence, active status, contacts, social graph, private messages, profile views, popularity, compatibility score, safety score, risk score, trust score, response prediction, identity inference, health, finances, housing, employment, or vulnerability."
+}
