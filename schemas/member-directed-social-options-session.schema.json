@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/member-directed-social-options-session.schema.json",
+  "title": "Hearthline Member-Directed Social Options Session",
+  "description": "A private, member-initiated planning session for optional social possibilities. It is not a behavioral profile, recurring routine, calendar integration, health assessment, availability model, or automated scheduling tool.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sessionId",
+    "ownerRef",
+    "state",
+    "memberSelectedInputs",
+    "notificationPreference",
+    "createdAt",
+    "memberInitiated"
+  ],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "pattern": "^social_options_[A-Za-z0-9_-]{16,128}$"
+    },
+    "ownerRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused_by_owner",
+        "completed",
+        "discarded"
+      ]
+    },
+    "memberSelectedInputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "connectionGoals": {
+          "type": "array",
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "conversation",
+              "friendship",
+              "shared_activity",
+              "dating",
+              "romance",
+              "casual_connection",
+              "undecided"
+            ]
+          }
+        },
+        "formats": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "text",
+              "remote",
+              "public_activity",
+              "learning",
+              "creative_activity",
+              "shared_game"
+            ]
+          }
+        },
+        "pace": {
+          "type": "string",
+          "enum": [
+            "one_time_option",
+            "occasional_option",
+            "flexible",
+            "no_recurring_plan"
+          ]
+        },
+        "comfortControls": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "text_first",
+              "public_first",
+              "remote_first",
+              "quiet_preferred",
+              "lower_sensory_preferred",
+              "short_duration_preferred",
+              "asynchronous_ok",
+              "no_photo_required"
+            ]
+          }
+        },
+        "costPreference": {
+          "type": "string",
+          "enum": [
+            "no_cost_preferred",
+            "low_cost_preferred",
+            "not_discussing"
+          ]
+        },
+        "settingScope": {
+          "type": "string",
+          "enum": [
+            "remote",
+            "public_category_only",
+            "selected_broad_region"
+          ]
+        },
+        "planningWindow": {
+          "type": "string",
+          "enum": [
+            "today",
+            "this_week",
+            "next_two_weeks",
+            "unspecified"
+          ]
+        }
+      }
+    },
+    "notificationPreference": {
+      "type": "string",
+      "enum": [
+        "none",
+        "member_opened_only",
+        "digest_only",
+        "single_member_selected_reminder"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "memberInitiated": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "$comment": "Forbidden fields: energy score, inferred energy, mental-health state, loneliness, crisis, health, disability, recovery, financial state, housing, employment, calendar event, calendar provider, schedule, exact availability, exact location, coordinates, routes, venue history, device behavior, social graph, engagement metric, match count, response rate, action obligation, streak, urgency score, or automated-send permission."
+}
