@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/component-composition-contract.schema.json",
+  "title": "Hearthline Component Composition Contract",
+  "description": "A versioned, purpose-limited contract for data or event flow between Hearthline components. It is not a universal profile, shared data lake, or blanket authorization.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contractId",
+    "producer",
+    "consumer",
+    "purpose",
+    "inputSchemaRef",
+    "outputSchemaRef",
+    "allowedFields",
+    "forbiddenFields",
+    "authorizationRequirement",
+    "retentionClass",
+    "revocationBehavior",
+    "failureMode",
+    "policyVersion",
+    "state"
+  ],
+  "properties": {
+    "contractId": {
+      "type": "string",
+      "pattern": "^component_contract_[A-Za-z0-9_-]{16,128}$"
+    },
+    "producer": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_\\-]{2,96}$"
+    },
+    "consumer": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_\\-]{2,96}$"
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
+    },
+    "inputSchemaRef": {
+      "type": "string",
+      "pattern": "^schema_[A-Za-z0-9_-]{16,128}$"
+    },
+    "outputSchemaRef": {
+      "type": "string",
+      "pattern": "^schema_[A-Za-z0-9_-]{16,128}$"
+    },
+    "allowedFields": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_\\-]{1,96}$"
+      }
+    },
+    "forbiddenFields": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_\\-]{1,96}$"
+      }
+    },
+    "authorizationRequirement": {
+      "type": "string",
+      "enum": [
+        "member_owned_read",
+        "current_capability_grant",
+        "policy_authorized_service",
+        "human_review_authorization",
+        "aggregate_governance_authorization"
+      ]
+    },
+    "consentRequirement": {
+      "type": "string",
+      "enum": [
+        "none",
+        "member_selected_input",
+        "current_capability_grant",
+        "separate_research_opt_in"
+      ]
+    },
+    "retentionClass": {
+      "type": "string",
+      "enum": [
+        "ephemeral_operational",
+        "member_controlled",
+        "content_minimized_accountability",
+        "purpose_limited_governance",
+        "isolated_research"
+      ]
+    },
+    "revocationBehavior": {
+      "type": "string",
+      "enum": [
+        "not_applicable",
+        "deny_future_reads",
+        "invalidate_tokens_and_caches",
+        "cancel_queued_actions_and_end_active_session"
+      ]
+    },
+    "failureMode": {
+      "type": "string",
+      "enum": [
+        "fail_closed",
+        "omit_optional_feature",
+        "require_human_review"
+      ]
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^[a-z0-9_\\-]+$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "under_review",
+        "approved",
+        "deprecated",
+        "revoked"
+      ]
+    }
+  },
+  "$comment": "Forbidden fields include raw messages, media, exact location, routes, attendance, contact graph, protected identity, health, recovery, finances, housing, employment, vulnerability, advertising identifiers, person-level scores, universal profile references, or unrestricted data payloads."
+}
