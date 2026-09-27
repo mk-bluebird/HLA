@@ -1,0 +1,14 @@
+<form id="sign-in" action="/auth/sign-in" method="post">
+  <label for="account-entry">Sign in</label>
+  <input
+    id="account-entry"
+    name="account-entry"
+    type="text"
+    autocomplete="webauthn"
+    aria-describedby="sign-in-help"
+  />
+  <p id="sign-in-help">
+    You can choose a saved passkey, or use another available sign-in method.
+  </p>
+  <button type="submit">Continue</button>
+</form>
