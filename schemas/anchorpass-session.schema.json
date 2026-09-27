@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/anchorpass-session.schema.json",
+  "title": "Hearthline AnchorPass Session",
+  "description": "A short-lived authenticated session established through passkey verification. It stores no biometric data, password, device PIN, private passkey material, or social/discovery data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sessionId",
+    "memberRef",
+    "credentialRef",
+    "state",
+    "issuedAt",
+    "expiresAt",
+    "revocationEpoch",
+    "policyVersion"
+  ],
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "pattern": "^session_[A-Za-z0-9_-]{16,128}$"
+    },
+    "memberRef": {
+      "type": "string",
+      "pattern": "^member_[A-Za-z0-9_-]{16,128}$"
+    },
+    "credentialRef": {
+      "type": "string",
+      "pattern": "^credential_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "reauthentication_required",
+        "revoked",
+        "expired"
+      ]
+    },
+    "issuedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiresAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revocationEpoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "policyVersion": {
+      "type": "string",
+      "pattern": "^anchorpass-session-policy-v[0-9]+$"
+    }
+  },
+  "$comment": "Forbidden fields include password, biometric, faceIdData, touchIdData, fingerprint, devicePin, devicePattern, privateKey, deviceLocation, deviceBehavior, socialGraph, messageContent, profileData, discoveryData, trustScore, safetyScore, riskScore, reputationScore, compatibilityScore, or paidSubscriptionStatus."
+}
