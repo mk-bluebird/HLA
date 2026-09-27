@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hearthline.example/open-item-record.schema.json",
+  "title": "Hearthline Open Item Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "question",
+    "decisionOwner",
+    "requiredReviewers",
+    "acceptanceCriterion",
+    "releaseGate",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^HL-OPEN-[0-9]{3}$"
+    },
+    "question": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 2000
+    },
+    "decisionOwner": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 128
+    },
+    "requiredReviewers": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "security_engineering",
+          "privacy_data_governance",
+          "accessibility",
+          "nondiscrimination_equity",
+          "member_rights_policy",
+          "legal_counsel",
+          "release_accountability_owner"
+        ]
+      }
+    },
+    "acceptanceCriterion": {
+      "type": "string",
+      "minLength": 30,
+      "maxLength": 2000
+    },
+    "releaseGate": {
+      "type": "string",
+      "pattern": "^HL-GATE-[A-Z]+-[0-9]{3}$"
+    },
+    "status": {
+      "enum": [
+        "open",
+        "researching",
+        "awaiting_external_review",
+        "ready_for_decision",
+        "closed"
+      ]
+    }
+  }
+}
