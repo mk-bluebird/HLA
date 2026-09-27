@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hearthline.example/anti-abuse-bound.schema.json",
+  "title": "Hearthline Anti-Abuse Bound Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mechanismId",
+    "attackerClass",
+    "coordinationCeiling",
+    "protectedActionOrResource",
+    "stateRetention",
+    "defenderCostCeiling",
+    "remediationLatencyTarget",
+    "appealServiceLevelTarget",
+    "accessibilityAlternative",
+    "residualRiskStatement",
+    "reviewOwners",
+    "nextReviewDate"
+  ],
+  "properties": {
+    "mechanismId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{2,96}$"
+    },
+    "attackerClass": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "individual",
+          "casual_automation",
+          "small_independent_group"
+        ]
+      }
+    },
+    "coordinationCeiling": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 1000
+    },
+    "protectedActionOrResource": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 256
+    },
+    "stateRetention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximumDuration",
+        "deletionMechanism",
+        "prohibitedDerivedState"
+      ],
+      "properties": {
+        "maximumDuration": {
+          "type": "string",
+          "pattern": "^P(T.*|[0-9]+D)$"
+        },
+        "deletionMechanism": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 512
+        },
+        "prohibitedDerivedState": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "personhood_score",
+              "trust_score",
+              "reputation_score",
+              "risk_score",
+              "device_graph",
+              "network_graph",
+              "federation_graph",
+              "profile_similarity_graph",
+              "behavior_graph",
+              "account_link_likelihood"
+            ]
+          }
+        }
+      }
+    },
+    "defenderCostCeiling": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 1000
+    },
+    "remediationLatencyTarget": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 512
+    },
+    "appealServiceLevelTarget": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 512
+    },
+    "accessibilityAlternative": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 1000
+    },
+    "residualRiskStatement": {
+      "type": "string",
+      "minLength": 50,
+      "maxLength": 4000
+    },
+    "reviewOwners": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "security_engineering",
+          "privacy_data_governance",
+          "accessibility",
+          "nondiscrimination_equity",
+          "member_rights_policy",
+          "release_accountability_owner"
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "const": "security_engineering"
+          }
+        },
+        {
+          "contains": {
+            "const": "privacy_data_governance"
+          }
+        },
+        {
+          "contains": {
+            "const": "accessibility"
+          }
+        },
+        {
+          "contains": {
+            "const": "nondiscrimination_equity"
+          }
+        },
+        {
+          "contains": {
+            "const": "member_rights_policy"
+          }
+        }
+      ]
+    },
+    "nextReviewDate": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}
