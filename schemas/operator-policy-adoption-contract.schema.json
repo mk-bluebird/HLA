@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hearthline.example/schemas/operator-policy-adoption-contract.schema.json",
+  "title": "Hearthline Operator Policy Adoption Contract",
+  "description": "A declaration by a platform operator adopting HLA. It records operator-specific policy choices while preserving the non-overridable free-functionality, consent, privacy, accessibility, safety, and non-commercial rights floor.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "operatorContractId",
+    "operatorRef",
+    "state",
+    "rightsFloorVersion",
+    "freeFunctionalityFloorAccepted",
+    "paidStatusExcludedFromSocialAllocation",
+    "accessibilityParityAccepted",
+    "consentWithdrawalAccepted",
+    "nonCommercialIntegrityAccepted",
+    "privateContentAdvertisingProhibited",
+    "defaultModelTrainingProhibited",
+    "createdAt",
+    "reviewBy"
+  ],
+  "properties": {
+    "operatorContractId": {
+      "type": "string",
+      "pattern": "^operator_policy_[A-Za-z0-9_-]{16,128}$"
+    },
+    "operatorRef": {
+      "type": "string",
+      "pattern": "^operator_[A-Za-z0-9_-]{16,128}$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "under_review",
+        "approved",
+        "revoked",
+        "expired"
+      ]
+    },
+    "rightsFloorVersion": {
+      "type": "string",
+      "pattern": "^hla-rights-floor-v[0-9]+$"
+    },
+    "freeFunctionalityFloorAccepted": {
+      "type": "boolean",
+      "const": true
+    },
+    "paidStatusExcludedFromSocialAllocation": {
+      "type": "boolean",
+      "const": true
+    },
+    "accessibilityParityAccepted": {
+      "type": "boolean",
+      "const": true
+    },
+    "consentWithdrawalAccepted": {
+      "type": "boolean",
+      "const": true
+    },
+    "nonCommercialIntegrityAccepted": {
+      "type": "boolean",
+      "const": true
+    },
+    "privateContentAdvertisingProhibited": {
+      "type": "boolean",
+      "const": true
+    },
+    "defaultModelTrainingProhibited": {
+      "type": "boolean",
+      "const": true
+    },
+    "optionalPaidFeatureClasses": {
+      "type": "array",
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "additional_private_compute",
+          "additional_member_owned_storage",
+          "additional_export_formats",
+          "device_local_organization",
+          "institutional_hosting_administration"
+        ]
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewBy": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$comment": "Forbidden operator policies include pay-to-rank, paid discovery priority, paid reply priority, paid safety/trust status, paid consent bypass, paid access controls, paid accessibility paths, paid block/report/appeal/deletion, paid location/presence access, value-for-intimacy workflows, private-content advertising, or default training on private member content."
+}
