@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.hearthline.example/invariant-record.schema.json",
+  "title": "Hearthline Invariant Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "normativeStatement",
+    "owningTrustZone",
+    "allowedDataClasses",
+    "prohibitedDataClasses",
+    "permittedReaders",
+    "prohibitedReaders",
+    "retention",
+    "accessibilityAlternative",
+    "verification",
+    "releaseGate",
+    "residualRiskReference"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^HL-(INV|GATE)-[A-Z]+-[0-9]{3}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 160
+    },
+    "normativeStatement": {
+      "type": "string",
+      "minLength": 30,
+      "maxLength": 2000
+    },
+    "owningTrustZone": {
+      "enum": [
+        "anchorline_authentication",
+        "anchorline_recovery",
+        "agegate",
+        "lantern_integrity",
+        "common_ground_consent",
+        "true_compass_connection",
+        "afterlight_governance",
+        "bridge_adapters"
+      ]
+    },
+    "allowedDataClasses": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "prohibitedDataClasses": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "permittedReaders": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "prohibitedReaders": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maximumDuration",
+        "deletionAction",
+        "cryptographicErasureRequired"
+      ],
+      "properties": {
+        "maximumDuration": {
+          "type": "string",
+          "pattern": "^P(T.*|[0-9]+D)$"
+        },
+        "deletionAction": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 1000
+        },
+        "cryptographicErasureRequired": {
+          "type": "boolean"
+        }
+      }
+    },
+    "accessibilityAlternative": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 1000
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positiveTests",
+        "negativeTests",
+        "adversarialTests",
+        "deletionTests",
+        "egressDenialTests"
+      ],
+      "properties": {
+        "formalModel": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 512
+        },
+        "positiveTests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "negativeTests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "adversarialTests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "deletionTests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "egressDenialTests": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "releaseGate": {
+      "type": "string",
+      "pattern": "^HL-GATE-[A-Z]+-[0-9]{3}$"
+    },
+    "residualRiskReference": {
+      "type": "string",
+      "pattern": "^HL-RISK-[A-Z]+-[0-9]{3}$"
+    }
+  }
+}
